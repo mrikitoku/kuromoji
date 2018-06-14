@@ -29,6 +29,28 @@ import static org.junit.Assert.assertEquals;
 public class UserDictionaryTest {
 
     @Test
+    public void testLookupForBaseForm() throws IOException {
+        UserDictionary dictionary = new UserDictionary(
+                getResource("userdict.txt"),
+                9, 7, 0, 6
+        );
+
+        List<UserDictionary.UserDictionaryMatch> matches = dictionary.findUserDictionaryMatches("成田国際空港に行った");
+
+        // Length should be three 関西, 国際, 空港
+        assertEquals(1, matches.size());
+
+        // Test positions
+        assertEquals(0, matches.get(0).getMatchStartIndex()); // index of 関西
+
+        // Test lengths
+        assertEquals(6, matches.get(0).getMatchLength()); // length of 関西
+
+        List<UserDictionary.UserDictionaryMatch> matches2 = dictionary.findUserDictionaryMatches("成田国際空港と関西国際空港に行った");
+        assertEquals(4, matches2.size());
+    }
+
+    @Test
     public void testLookup() throws IOException {
         UserDictionary dictionary = new UserDictionary(
             getResource("userdict.txt"),
@@ -61,7 +83,7 @@ public class UserDictionaryTest {
             9, 7, 0
         );
 
-        assertEquals("カスタム名詞,*,*,*,*,*,*,ニホン,*", dictionary.getAllFeatures(0));
+        assertEquals("カスタム名詞,*,*,*,*,*,日本,ニホン,*", dictionary.getAllFeatures(0));
     }
 
     @Test
@@ -71,7 +93,7 @@ public class UserDictionaryTest {
             7, 5, 0
         );
 
-        assertEquals("カスタム名詞,*,*,*,*,ニホン,*", dictionary.getAllFeatures(0));
+        assertEquals("カスタム名詞,*,*,*,*,ニホン,日本", dictionary.getAllFeatures(0));
     }
 
     @Test
@@ -85,7 +107,7 @@ public class UserDictionaryTest {
         //   葦登,1358,1358,4975,名詞,一般,*,*,*,*,葦登,ヨシノボリ,ヨシノボリ,,
         //
         // How should we treat the last features in the user dictionary?  They seem empty, but we return * for them...
-        assertEquals("カスタム名詞,*,*,*,*,*,*,ニホン,*,*,*", dictionary.getAllFeatures(0));
+        assertEquals("カスタム名詞,*,*,*,*,*,日本,ニホン,*,*,*", dictionary.getAllFeatures(0));
     }
 
     @Test
@@ -95,7 +117,7 @@ public class UserDictionaryTest {
             13, 7, 0
         );
 
-        assertEquals("カスタム名詞,*,*,*,*,*,*,ニホン,*,*,*,*,*", dictionary.getAllFeatures(0));
+        assertEquals("カスタム名詞,*,*,*,*,*,日本,ニホン,*,*,*,*,*", dictionary.getAllFeatures(0));
     }
 
     @Test
@@ -105,7 +127,7 @@ public class UserDictionaryTest {
             22, 13, 0
         );
 
-        assertEquals("カスタム名詞,*,*,*,*,*,*,*,*,*,*,*,*,ニホン,*,*,*,*,*,*,*,*", dictionary.getAllFeatures(0));
+        assertEquals("カスタム名詞,*,*,*,*,*,日本,*,*,*,*,*,*,ニホン,*,*,*,*,*,*,*,*", dictionary.getAllFeatures(0));
     }
 
     @Test

@@ -78,7 +78,7 @@ public class UserDictionaryTokenizerTest {
         assertEquals(surfaces.length, tokens.size());
         Token token = tokens.get(1);
         String actual = token.getSurface() + "\t" + token.getAllFeatures();
-        assertEquals("クロ\tカスタム名詞,*,*,*,*,*,*,クロ,*", actual);
+        assertEquals("クロ\tカスタム名詞,*,*,*,*,*,クロ,クロ,*", actual);
     }
 
 
@@ -104,7 +104,7 @@ public class UserDictionaryTokenizerTest {
         String[] surfaces = {"ア", "クロ", "ア"};
         String[] features = {
             "*,*,*,*,*,*,*,*,*",
-            "カスタム名詞,*,*,*,*,*,*,クロ,*",
+            "カスタム名詞,*,*,*,*,*,クロ,クロ,*",
             "*,*,*,*,*,*,*,*,*"
         };
         List<Token> tokens = tokenizer.tokenize(input);
@@ -129,7 +129,7 @@ public class UserDictionaryTokenizerTest {
             "名詞,一般,*,*,*,*,名前,ナマエ,ナマエ",
             "助詞,係助詞,*,*,*,*,は,ハ,ワ",
             "*,*,*,*,*,*,*,*,*",
-            "カスタム名詞,*,*,*,*,*,*,クロ,*",
+            "カスタム名詞,*,*,*,*,*,クロ,クロ,*",
             "*,*,*,*,*,*,*,*,*",
             "助動詞,*,*,*,特殊・ダ,基本形,だ,ダ,ダ",
             "記号,句点,*,*,*,*,。,。,。"
@@ -220,9 +220,9 @@ public class UserDictionaryTokenizerTest {
             "カスタム名詞,固有名詞,人名,姓,*,*,渡部,ワタナベ,ワタナベ",
             "名詞,接尾,人名,*,*,*,さん,サン,サン",
             "助詞,係助詞,*,*,*,*,は,ハ,ワ",
-            "カスタム名詞,*,*,*,*,*,*,ニホン,*",
-            "カスタム名詞,*,*,*,*,*,*,ケイザイ,*",
-            "カスタム名詞,*,*,*,*,*,*,シンブン,*",
+            "カスタム名詞,*,*,*,*,*,日本,ニホン,*",
+            "カスタム名詞,*,*,*,*,*,経済,ケイザイ,*",
+            "カスタム名詞,*,*,*,*,*,新聞,シンブン,*",
             "名詞,一般,*,*,*,*,社,シャ,シャ",
             "助詞,格助詞,一般,*,*,*,に,ニ,ニ",
             "動詞,自立,*,*,一段,連用形,勤める,ツトメ,ツトメ",

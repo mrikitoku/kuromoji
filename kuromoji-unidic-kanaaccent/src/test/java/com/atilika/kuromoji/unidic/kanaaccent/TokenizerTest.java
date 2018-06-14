@@ -134,7 +134,7 @@ public class TokenizerTest {
         List<Token> tokens = tokenizer.tokenize("北斗の拳は非常に面白かった。");
 
         String expectedSurface = "北斗の拳";
-        String expectedFeatures = "カスタム名詞,*,*,*,*,*,*,*,*,*,*,*,*,ホクトノケン,*,*,*,*,*,*,*,*,*,*,*,*";
+        String expectedFeatures = "カスタム名詞,*,*,*,*,*,北斗の拳,*,*,*,*,*,*,ホクトノケン,*,*,*,*,*,*,*,*,*,*,*,*";
 
         assertEquals(expectedSurface, tokens.get(0).getSurface());
         assertEquals(expectedFeatures, tokens.get(0).getAllFeatures());

@@ -30,7 +30,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class UserDictionary implements Dictionary {
-
     private static final int SIMPLE_USERDICT_FIELDS = 4;
 
     private static final int WORD_COST_BASE = -100000;
@@ -49,6 +48,7 @@ public class UserDictionary implements Dictionary {
     private final int readingFeature;
     private final int partOfSpeechFeature;
     private final int totalFeatures;
+    private final int baseFormFeature;
     // The word id below is the word id for the source string
     // surface string => [ word id, 1st token length, 2nd token length, ... , nth token length
     private PatriciaTrie<int[]> surfaces = new PatriciaTrie<>();
@@ -60,6 +60,19 @@ public class UserDictionary implements Dictionary {
         this.totalFeatures = totalFeatures;
         this.readingFeature = readingFeature;
         this.partOfSpeechFeature = partOfSpeechFeature;
+        this.baseFormFeature = 6; // TODO
+        read(input);
+    }
+
+    public UserDictionary(InputStream input,
+                          int totalFeatures,
+                          int readingFeature,
+                          int partOfSpeechFeature,
+                          int baseFormFeature) throws IOException {
+        this.totalFeatures = totalFeatures;
+        this.readingFeature = readingFeature;
+        this.partOfSpeechFeature = partOfSpeechFeature;
+        this.baseFormFeature = baseFormFeature;
         read(input);
     }
 
@@ -247,10 +260,13 @@ public class UserDictionary implements Dictionary {
         wordIdAndLengths[0] = wordId;
 
         for (int i = 0; i < segmentation.length; i++) {
+            if (segmentation.length > 1) {
+                wordIdAndLengths[i + 1] = segmentation[i].length();
+            } else {
+                wordIdAndLengths[1] = surface.length();
+            }
 
-            wordIdAndLengths[i + 1] = segmentation[i].length();
-
-            String[] features = makeSimpleFeatures(partOfSpeech, readings[i]);
+            String[] features = makeSimpleFeatures(partOfSpeech, readings[i], segmentation[i]);
             int[] costs = makeCosts(surface.length());
 
             UserDictionaryEntry entry = new UserDictionaryEntry(
@@ -276,6 +292,14 @@ public class UserDictionary implements Dictionary {
         String[] features = emptyFeatureArray();
         features[partOfSpeechFeature] = partOfSpeech;
         features[readingFeature] = reading;
+        return features;
+    }
+
+    private String[] makeSimpleFeatures(String partOfSpeech, String reading, String baseForm) {
+        String[] features = emptyFeatureArray();
+        features[partOfSpeechFeature] = partOfSpeech;
+        features[readingFeature] = reading;
+        features[baseFormFeature] = baseForm;
         return features;
     }
 

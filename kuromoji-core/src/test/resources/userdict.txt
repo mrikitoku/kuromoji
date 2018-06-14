@@ -4,3 +4,6 @@
 
 # Custom reading for sumo wrestler
 朝青龍,朝青龍,アサショウリュウ,カスタム人名
+
+# custom base form for
+成田国際空港,NRT,NRT,テスト名詞
